@@ -54,10 +54,10 @@
       </table>
     </div>
 <div class="card" style="margin-top:12px">
-  <h3>Pleno al 15 — SEVILLA vs R.MADRID (elige goles para cada equipo)</h3>
+  <h3>Pleno al 15 — R.MADRID vs ATH.CLUB (elige goles para cada equipo)</h3>
   <div style="display:flex;gap:12px;align-items:center">
     <div>
-      <div class="small">Local (SEVILLA)</div>
+      <div class="small">Local (R.MADRID)</div>
       <select id="plenoLocal">
         <option value="">--</option>
         <option value="0">0</option>
@@ -67,7 +67,7 @@
       </select>
     </div>
     <div>
-      <div class="small">Visitante (R.MADRID)</div>
+      <div class="small">Visitante (ATH.CLUB)</div>
       <select id="plenoVisitante">
         <option value="">--</option>
         <option value="0">0</option>
@@ -87,21 +87,21 @@
 <script>
 // === PARTIDOS JORNADA ACTUALIZADA ===
 const matches = [
-  {id:1, home:'ATH.CLUB', away:'CELTA'},
-  {id:2, home:'AT.MADRID', away:'GIRONA'},
-  {id:3, home:'BARCELONA', away:'BETIS'},
-  {id:4, home:'ELCHE', away:'GETAFE'},
-  {id:5, home:'LEVANTE', away:'MALLORCA'},
-  {id:6, home:'RAYO', away:'VILLARREAL'},
-  {id:7, home:'R.SOCIEDAD', away:'VALENCIA'},
-  {id:8, home:'R.OVIEDO', away:'ALAVÉS'},
-  {id:9, home:'OSASUNA', away:'ESPANYOL'},
-  {id:10, home:'CEUTA', away:'MÁLAGA'},
-  {id:11, home:'RACING S.', away:'VALLADOLID'},
-  {id:12, home:'ALMERÍA', away:'LAS PALMAS'},
-  {id:13, home:'CASTELLÓN', away:'CÁDIZ'},
-  {id:14, home:'LEGANÉS', away:'HUESCA'},
-  {id:15, home:'SEVILLA', away:'R.MADRID'}
+  {id:1, home:'ALAVÉS', away:'RAYO'},
+  {id:2, home:'BETIS', away:'LEVANTE'},
+  {id:3, home:'CELTA', away:'SEVILLA'},
+  {id:4, home:'ESPANYOL', away:'R.SOCIEDAD'},
+  {id:5, home:'GETAFE', away:'OSASUNA'},
+  {id:6, home:'MALLORCA', away:'R.OVIEDO'},
+  {id:7, home:'VILLARREAL', away:'AT.MADRID'},
+  {id:8, home:'VALENCIA', away:'BARCELONA'},
+  {id:9, home:'GIRONA', away:'ELCHE'},
+  {id:10, home:'MÁLAGA', away:'RACING S.'},
+  {id:11, home:'ANDORRA FC', away:'CEUTA'},
+  {id:12, home:'HUESCA', away:'CASTELLÓN'},
+  {id:13, home:'EIBAR', away:'CÓRDOBA'},
+  {id:14, home:'SPORTING', away:'ALMERÍA'},
+  {id:15, home:'R.MADRID', away:'ATH.CLUB'}
 ];
 
 const matchesBody = document.getElementById('matchesBody');
