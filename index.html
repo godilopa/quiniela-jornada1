@@ -7,11 +7,11 @@
   <style>
     body{font-family:system-ui,Segoe UI,Roboto,Arial;margin:20px;background:#f7fafc}
     .card{background:#fff;padding:16px;border-radius:8px;box-shadow:0 6px 18px rgba(10,10,10,0.06);margin-bottom:16px}
-    h1{margin-top:0} 
+    h1{margin-top:0}
     table{width:100%;border-collapse:collapse}
     th,td{border:1px solid #e6e6e6;padding:8px;text-align:center}
     select,input{padding:6px;border-radius:6px;border:1px solid #ddd}
-    .small{font-size:13px;color:#555'}
+    .small{font-size:13px;color:#555}
     .error{color:#b00020}
     .success{color:green}
     button{padding:10px 14px;border-radius:8px;border:0;background:#0ea5a4;color:#fff;cursor:pointer}
@@ -20,24 +20,13 @@
 <body>
   <div class="card">
     <h1>Quiniela</h1>
- 
     <label>Tipo de quiniela:
       <select id="tipoQuiniela">
-        <!-- Reducción al 13 con columna base-->
-        <option value="13_1t_5d">Reducida al 13 — 1 triple y 5 dobles (con columna base)</option>
-        <option value="13_0t_7d">Reducida al 13 — 0 triples y 7 dobles (con columna base)</option>
-
-        <!-- Reducción al 12 con columna base-->
-        <option value="12_0t_9d">Reducida al 12 — 0 triples y 9 dobles (con columna base)</option>
-        <option value="12_0t_10d">Reducida al 12 — 0 triples y 10 dobles (con columna base)</option>
-        <option value="12_2t_6d">Reducida al 12 — 2 triples y 6 dobles (con columna base)</option>
-        <option value="12_2t_5d">Reducida al 12 — 2 triples y 5 dobles (con columna base)</option>
-        <option value="12_5t_2d">Reducida al 12 — 5 triples y 2 dobles (con columna base)</option>
+        <option value="10t">10 triples</option>
       </select>
     </label>
 
-    
-<div style="overflow:auto;margin-top:12px">
+    <div style="overflow:auto;margin-top:12px">
       <table>
         <thead>
           <tr>
@@ -53,66 +42,72 @@
         <tbody id="matchesBody"></tbody>
       </table>
     </div>
-<div class="card" style="margin-top:12px">
-  <h3>Pleno al 15 — R.MADRID vs ATH.CLUB (elige goles para cada equipo)</h3>
-  <div style="display:flex;gap:12px;align-items:center">
-    <div>
-      <div class="small">Local (R.MADRID)</div>
-      <select id="plenoLocal">
-        <option value="">--</option>
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="M">M</option>
-      </select>
+
+    <div class="card" style="margin-top:12px">
+      <h3>Pleno al 15 — R.MADRID vs ATH.CLUB (elige goles para cada equipo)</h3>
+      <div style="display:flex;gap:12px;align-items:center">
+        <div>
+          <div class="small">Local (R.MADRID)</div>
+          <select id="plenoLocal">
+            <option value="">--</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="M">M</option>
+          </select>
+        </div>
+        <div>
+          <div class="small">Visitante (ATH.CLUB)</div>
+          <select id="plenoVisitante">
+            <option value="">--</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="M">M</option>
+          </select>
+        </div>
+      </div>
     </div>
-    <div>
-      <div class="small">Visitante (ATH.CLUB)</div>
-      <select id="plenoVisitante">
-        <option value="">--</option>
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="M">M</option>
-      </select>
+
+    <div style="margin-top:12px;display:flex;gap:12px;align-items:center">
+      <button id="sendBtn">Enviar a Google Sheets</button>
+      <div id="status" class="small"></div>
     </div>
   </div>
-</div>
-
-<div style="margin-top:12px;display:flex;gap:12px;align-items:center">
-  <button id="sendBtn">Enviar a Google Sheets</button>
-  <div id="status" class="small"></div>
-</div>
 
 <script>
-// === PARTIDOS JORNADA ACTUALIZADA ===
 const matches = [
-  {id:1, home:'ALAVÉS', away:'RAYO'},
-  {id:2, home:'BETIS', away:'LEVANTE'},
-  {id:3, home:'CELTA', away:'SEVILLA'},
-  {id:4, home:'ESPANYOL', away:'R.SOCIEDAD'},
-  {id:5, home:'GETAFE', away:'OSASUNA'},
-  {id:6, home:'MALLORCA', away:'R.OVIEDO'},
-  {id:7, home:'VILLARREAL', away:'AT.MADRID'},
-  {id:8, home:'VALENCIA', away:'BARCELONA'},
-  {id:9, home:'GIRONA', away:'ELCHE'},
-  {id:10, home:'MÁLAGA', away:'RACING S.'},
-  {id:11, home:'ANDORRA FC', away:'CEUTA'},
-  {id:12, home:'HUESCA', away:'CASTELLÓN'},
-  {id:13, home:'EIBAR', away:'CÓRDOBA'},
-  {id:14, home:'SPORTING', away:'ALMERÍA'},
-  {id:15, home:'R.MADRID', away:'ATH.CLUB'}
+  {id:1,  home:'ALAVÉS',      away:'RAYO'},
+  {id:2,  home:'BETIS',       away:'LEVANTE'},
+  {id:3,  home:'CELTA',       away:'SEVILLA'},
+  {id:4,  home:'ESPANYOL',    away:'R.SOCIEDAD'},
+  {id:5,  home:'GETAFE',      away:'OSASUNA'},
+  {id:6,  home:'MALLORCA',    away:'R.OVIEDO'},
+  {id:7,  home:'VILLARREAL',  away:'AT.MADRID'},
+  {id:8,  home:'VALENCIA',    away:'BARCELONA'},
+  {id:9,  home:'GIRONA',      away:'ELCHE'},
+  {id:10, home:'MÁLAGA',      away:'RACING S.'},
+  {id:11, home:'ANDORRA FC',  away:'CEUTA'},
+  {id:12, home:'HUESCA',      away:'CASTELLÓN'},
+  {id:13, home:'EIBAR',       away:'CÓRDOBA'},
+  {id:14, home:'SPORTING',    away:'ALMERÍA'},
+  {id:15, home:'R.MADRID',    away:'ATH.CLUB'}
 ];
+
+const mapping = {
+  '10t': { triples: 10 }
+};
 
 const matchesBody = document.getElementById('matchesBody');
 
+// Guarda el primer resultado marcado por fila (para base automática)
+const firstBaseMap = {};
+
 function buildTable() {
   matchesBody.innerHTML = '';
-  // render only 1..14 as filas normales; la 15 queda para Pleno
-  matches.slice(0,14).forEach(m => {
+  matches.slice(0, 14).forEach(m => {
     const tr = document.createElement('tr');
     tr.dataset.id = m.id;
-
     tr.innerHTML = `
       <td>${m.id}</td>
       <td style="text-align:left">${m.home} - ${m.away}</td>
@@ -132,149 +127,166 @@ function buildTable() {
         </select>
       </td>
     `;
-
     matchesBody.appendChild(tr);
 
-    // attach listeners
-    const checkboxes = tr.querySelectorAll('input.opt');
-    const tipoSel = tr.querySelector('select.tipo');
-    const baseSel = tr.querySelector('select.base');
+    const checkboxes = Array.from(tr.querySelectorAll('input.opt'));
+    const tipoSel   = tr.querySelector('select.tipo');
+    const rowId     = m.id;
 
-    // when tipo changes, enforce limits
-    tipoSel.addEventListener('change', ()=>{
-      enforceLimits(tr);
-      updateBase(tr);
+    // Cuando se cambia el tipo desde el desplegable
+    tipoSel.addEventListener('change', () => {
+      const tipo = tipoSel.value;
+
+      if (tipo === 'T') {
+        // Marcar los 3 automáticamente
+        checkboxes.forEach(cb => { cb.checked = true; });
+        // Si no había base registrada, el "1" será la primera
+        if (!firstBaseMap[rowId]) firstBaseMap[rowId] = '1';
+      } else if (tipo === 'D') {
+        // Dejar solo los 2 primeros marcados (si había 3)
+        let kept = 0;
+        checkboxes.forEach(cb => {
+          if (cb.checked) { if (kept < 2) kept++; else cb.checked = false; }
+        });
+        // Si no queda ninguno marcado tras el ajuste, limpiar firstBase
+        const remaining = checkboxes.filter(b => b.checked);
+        if (remaining.length === 0) firstBaseMap[rowId] = null;
+        else if (!firstBaseMap[rowId]) firstBaseMap[rowId] = remaining[0].value;
+      } else if (tipo === 'S') {
+        // Dejar solo 1 marcado
+        let kept = 0;
+        checkboxes.forEach(cb => {
+          if (cb.checked) { if (kept === 0) kept++; else cb.checked = false; }
+        });
+        const remaining = checkboxes.filter(b => b.checked);
+        if (remaining.length === 0) firstBaseMap[rowId] = null;
+        else firstBaseMap[rowId] = remaining[0].value;
+      }
+
+      updateBase(tr, rowId);
     });
 
-    // when any checkbox changes
-    checkboxes.forEach(cb => cb.addEventListener('change', ()=>{
-      // auto-update tipo according to number of checked
-      const checkedCount = tr.querySelectorAll('input.opt:checked').length;
-      if(checkedCount >= 3) tipoSel.value = 'T';
-      else if(checkedCount === 2) tipoSel.value = 'D';
-      else if(checkedCount <= 1) tipoSel.value = 'S';
+    // Cuando se marca/desmarca un checkbox manualmente
+    checkboxes.forEach(cb => {
+      cb.addEventListener('change', () => {
+        const checkedBoxes = checkboxes.filter(b => b.checked);
+        const count = checkedBoxes.length;
 
-      enforceLimits(tr);
-      updateBase(tr);
-    }));
+        if (cb.checked) {
+          // Si es el primero en marcarse, registrar como base inicial
+          if (count === 1) firstBaseMap[rowId] = cb.value;
+        } else {
+          // Si se desmarca el que era la base inicial, reasignar
+          if (firstBaseMap[rowId] === cb.value) {
+            const remaining = checkboxes.filter(b => b.checked);
+            firstBaseMap[rowId] = remaining.length > 0 ? remaining[0].value : null;
+          }
+        }
 
+        // Actualizar tipo según cantidad marcada
+        if      (count >= 3) tipoSel.value = 'T';
+        else if (count === 2) tipoSel.value = 'D';
+        else                  tipoSel.value = 'S';
+
+        enforceLimits(tr);
+        updateBase(tr, rowId);
+      });
+    });
   });
 }
 
-function enforceLimits(tr){
-  const tipo = tr.querySelector('select.tipo').value;
+function enforceLimits(tr) {
+  const tipo  = tr.querySelector('select.tipo').value;
   const boxes = Array.from(tr.querySelectorAll('input.opt'));
-  const checked = boxes.filter(b=>b.checked);
-  if(tipo === 'S'){
-    // keep only the first checked
-    if(checked.length > 1){
-      let kept = 0;
-      boxes.forEach(b=>{ if(b.checked){ if(kept === 0){ kept = 1; } else { b.checked = false; } } });
-    }
-  } else if(tipo === 'D'){
-    if(checked.length > 2){
-      let kept = 0;
-      boxes.forEach(b=>{ if(b.checked){ if(kept < 2){ kept++; } else { b.checked = false; } } });
-    }
-  } // T allows all
+  const checked = boxes.filter(b => b.checked);
+  if (tipo === 'S' && checked.length > 1) {
+    let kept = 0;
+    boxes.forEach(b => { if (b.checked) { if (kept === 0) kept = 1; else b.checked = false; } });
+  } else if (tipo === 'D' && checked.length > 2) {
+    let kept = 0;
+    boxes.forEach(b => { if (b.checked) { if (kept < 2) kept++; else b.checked = false; } });
+  }
 }
 
-function updateBase(tr){
-  const boxes = Array.from(tr.querySelectorAll('input.opt'));
-  const checked = boxes.filter(b=>b.checked).map(b=>b.value);
+function updateBase(tr, rowId) {
+  const boxes   = Array.from(tr.querySelectorAll('input.opt'));
+  const checked = boxes.filter(b => b.checked).map(b => b.value);
   const baseSel = tr.querySelector('select.base');
+  const prevBase = baseSel.value;
 
-  // rebuild options
   baseSel.innerHTML = '';
-  if(checked.length === 0){
+  if (checked.length === 0) {
     baseSel.disabled = true;
-    const o = document.createElement('option'); o.value=''; o.textContent='--'; baseSel.appendChild(o);
+    const o = document.createElement('option'); o.value = ''; o.textContent = '--';
+    baseSel.appendChild(o);
+    firstBaseMap[rowId] = null;
     return;
   }
-  // add options from checked
-  const empty = document.createElement('option'); empty.value=''; empty.textContent='--'; baseSel.appendChild(empty);
-  checked.forEach(v=>{ const o = document.createElement('option'); o.value = v; o.textContent = v; baseSel.appendChild(o); });
+
+  const empty = document.createElement('option'); empty.value = ''; empty.textContent = '--';
+  baseSel.appendChild(empty);
+  checked.forEach(v => {
+    const o = document.createElement('option'); o.value = v; o.textContent = v;
+    baseSel.appendChild(o);
+  });
   baseSel.disabled = false;
 
-  // auto-select base when applicable: if only one checked -> pick it
-  if(checked.length === 1){ baseSel.value = checked[0]; }
-  // if previous value still valid, keep it
-  else if(!checked.includes(baseSel.value)) baseSel.value = '';
+  // Prioridad: 1) firstBase si sigue siendo válida  2) base anterior  3) vacío
+  const first = firstBaseMap[rowId];
+  if (first && checked.includes(first)) {
+    baseSel.value = first;
+  } else if (prevBase && checked.includes(prevBase)) {
+    baseSel.value = prevBase;
+  } else {
+    baseSel.value = '';
+  }
 }
 
-// build UI
 buildTable();
 
-// === Envío y validaciones ===
-// mapeo de combinaciones soportadas (triples, dobles)
-const mapping = {
-  // Reducción al 13 (columna base)
-  '13_1t_5d': {triples:1, doubles:5},
-  '13_0t_7d': {triples:0, doubles:7},
-
-  // Reducción al 12 (columna base) - opciones solicitadas (únicas)
-  '12_0t_9d':  {triples:0, doubles:9},
-  '12_0t_10d': {triples:0, doubles:10},
-  '12_2t_6d':  {triples:2, doubles:6},
-  '12_2t_5d':  {triples:2, doubles:5},
-  '12_5t_2d':  {triples:5, doubles:2}
-};
-
-document.getElementById('sendBtn').addEventListener('click', async ()=>{
+// === Validación y envío ===
+document.getElementById('sendBtn').addEventListener('click', async () => {
   const tipoQuiniela = document.getElementById('tipoQuiniela').value;
-  const expected = mapping[tipoQuiniela];
-  const rows = Array.from(document.querySelectorAll('#matchesBody tr'));
+  const expected     = mapping[tipoQuiniela];
+  const rows         = Array.from(document.querySelectorAll('#matchesBody tr'));
   let triples = 0, doubles = 0;
   const entries = [];
-  const errors = [];
+  const errors  = [];
 
-  rows.forEach(tr=>{
-    const id = tr.dataset.id;
+  rows.forEach(tr => {
+    const id        = tr.dataset.id;
     const matchText = tr.querySelector('td:nth-child(2)').textContent;
-    const tipo = tr.querySelector('select.tipo').value;
-    const selections = Array.from(tr.querySelectorAll('input.opt:checked')).map(cb=>cb.value);
-    const base = tr.querySelector('select.base').value;
+    const tipo      = tr.querySelector('select.tipo').value;
+    const selections = Array.from(tr.querySelectorAll('input.opt:checked')).map(cb => cb.value);
+    const base      = tr.querySelector('select.base').value;
 
-    if(tipo === 'T') triples++;
-    if(tipo === 'D') doubles++;
+    if (tipo === 'T') triples++;
+    if (tipo === 'D') doubles++;
 
-    // checks
-    if(selections.length === 0) errors.push(`Partido ${id} (${matchText}): selecciona al menos una opción.`);
-    if(tipo === 'S' && selections.length !== 1) errors.push(`Partido ${id}: marcado como SIMPLE pero debe tener 1 selección.`);
-    if(tipo === 'D' && selections.length !== 2) errors.push(`Partido ${id}: marcado como DOBLE pero debe tener 2 selecciones.`);
-    if(tipo === 'T' && selections.length !== 3) errors.push(`Partido ${id}: marcado como TRIPLE pero debe tener 3 selecciones.`);
-    if(!base) errors.push(`Partido ${id}: la columna Base debe estar establecida.`);
-    if(base && !selections.includes(base)) errors.push(`Partido ${id}: la Base (${base}) no coincide con las selecciones.`);
+    if (selections.length === 0) errors.push(`Partido ${id} (${matchText}): selecciona al menos una opción.`);
+    if (tipo === 'S' && selections.length !== 1) errors.push(`Partido ${id}: SIMPLE debe tener 1 selección.`);
+    if (tipo === 'D' && selections.length !== 2) errors.push(`Partido ${id}: DOBLE debe tener 2 selecciones.`);
+    if (tipo === 'T' && selections.length !== 3) errors.push(`Partido ${id}: TRIPLE debe tener 3 selecciones.`);
+    if (!base) errors.push(`Partido ${id}: la columna Base debe estar establecida.`);
+    if (base && !selections.includes(base)) errors.push(`Partido ${id}: la Base (${base}) no coincide con las selecciones.`);
 
-    entries.push({id, match: matchText, tipo, selections, base});
+    entries.push({ id, match: matchText, tipo, selections, base });
   });
 
-  // valida que exista mapping para la opción seleccionada
-  if(!expected){
-    errors.push('Tipo de quiniela no reconocido o no mapeado. Revisa la selección.');
+  if (!expected) {
+    errors.push('Tipo de quiniela no reconocido.');
   } else {
-    // validate triples/doubles count
-    if(triples !== expected.triples) errors.push(`Se esperaban ${expected.triples} triples pero hay ${triples}.`);
-    if(doubles !== expected.doubles) errors.push(`Se esperaban ${expected.doubles} dobles pero hay ${doubles}.`);
+    if (triples !== expected.triples)
+      errors.push(`Se esperaban ${expected.triples} triples pero hay ${triples}.`);
   }
 
-  // pleno
-  const plenoLocal = document.getElementById('plenoLocal').value;
+  const plenoLocal     = document.getElementById('plenoLocal').value;
   const plenoVisitante = document.getElementById('plenoVisitante').value;
-  if(!plenoLocal) errors.push('Pleno al 15: elige los goles del equipo local (Elche).');
-  if(!plenoVisitante) errors.push('Pleno al 15: elige los goles del equipo visitante (Real Betis).');
+  if (!plenoLocal)     errors.push('Pleno al 15: elige los goles del equipo local (R.MADRID).');
+  if (!plenoVisitante) errors.push('Pleno al 15: elige los goles del equipo visitante (ATH.CLUB).');
 
   const status = document.getElementById('status');
-  if(errors.length){ status.innerHTML = `<span class="error">${errors.join('<br>')}</span>`; return; }
-
-  // payload
-  const payload = {
-    tipoQuiniela,
-    expected,
-    summary:{triples,doubles},
-    entries,
-    pleno15:{ local:plenoLocal, away:plenoVisitante }
-  };
+  if (errors.length) { status.innerHTML = `<span class="error">${errors.join('<br>')}</span>`; return; }
 
   status.textContent = 'Enviando...';
 
@@ -283,18 +295,11 @@ document.getElementById('sendBtn').addEventListener('click', async ()=>{
     mode: 'cors',
     body: JSON.stringify({ tipoQuiniela, partidos: entries, pleno15: { local: plenoLocal, visitante: plenoVisitante } })
   })
-  .then(r => {
-    if (!r.ok) throw new Error('Error HTTP: ' + r.status);
-    return r.json();
-  })
-  .then(resp => {
-    status.textContent = 'Enviado';
-  })
-  .catch(err => {
-    status.textContent = 'Error: ' + err.message;
-  });
+  .then(r => { if (!r.ok) throw new Error('Error HTTP: ' + r.status); return r.json(); })
+  .then(() => { status.textContent = 'Enviado ✓'; })
+  .catch(err => { status.textContent = 'Error: ' + err.message; });
 });
-
 </script>
 </body>
 </html>
+
